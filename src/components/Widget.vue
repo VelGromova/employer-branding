@@ -79,7 +79,6 @@ export default {
   },
   methods: {
     load() {
-      alert(process.env.VUE_APP_EMPLOYER_BRANDING_API_ENDPOINT);
       axios.get(process.env.VUE_APP_EMPLOYER_BRANDING_API_ENDPOINT).then(response => {
           this.questions = response.data
       });
