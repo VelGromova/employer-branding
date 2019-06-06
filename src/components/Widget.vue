@@ -19,48 +19,12 @@
           :paginationColor="'#f1f1f1'"
           :paginationPadding="4">
           <slide
-            data-index="0"
-            data-name="question1"
-            @slideclick="gotoSlide(1)"
-            class="widget-question">
-            <p>
-              {{ question[0].title }}
-            </p>
-          </slide>
-          <slide
-            data-index="1"
-            data-name="question2"
-            @slideclick="gotoSlide(2)"
-            class="widget-question">
-            <p>
-              {{ question[1].title }}
-            </p>
-          </slide>
-          <slide
-            data-index="2"
-            data-name="question2"
-            @slideclick="gotoSlide(3)"
-            class="widget-question">
-            <p>
-              {{ question[2].title }}
-            </p>
-          </slide>
-          <slide
-            data-index="3"
-            data-name="question3"
-            @slideclick="gotoSlide"
-            class="widget-question">
-            <p>
-              {{ question[3].title }}
-            </p>
-          </slide>
-          <slide
-            data-index="4"
+            v-for="q in questions"
             data-name="question1"
             @slideclick="gotoSlide"
             class="widget-question">
             <p>
-              {{ question[4].title }}
+              {{ q.title }}
             </p>
           </slide>
         </carousel>
@@ -90,7 +54,7 @@ export default {
   },
   data() {
     return {
-      question: [
+      questions: [
         { title: 'Season 8, episode 3 was the worst episode of Game of Thrones ever.' },
         { title: 'Khaleesi turning into the Mad Queen really ruined the whole Game of Thrones series.' },
         { title: 'If Jon Snow would have killed Khaleesi and Grey Worm, he could have rescued millions of innocent people.' },
