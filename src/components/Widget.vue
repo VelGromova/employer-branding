@@ -1,45 +1,45 @@
 <template>
   <div id="brandingWidget" class="widget">
-
     <!-- Modal content -->
-    <div class="widget-content">
-      <div class="widget-header">
-        <div class="logo">
-          <img :src="logo" alt="Logo">
+    <transition name="modal-fade">
+      <div class="widget-content" v-show="isVisible">
+        <div class="widget-header" :style="styleObject">
+          <div class="logo">
+            <img :src="logo" alt="Logo">
+          </div>
+          <span class="close" @click="isVisible = false">&times;</span>
         </div>
-        <span class="close">&times;</span>
-      </div>
-      <div class="widget-body">
-        <carousel
-          :per-page="1"
-          :mouse-drag="false"
-          :paginationPosition="'top'"
-          :paginationSize="6"
-          :paginationActiveColor="'#D2D2D2'"
-          :paginationColor="'#f1f1f1'"
-          :paginationPadding="4">
-          <slide
-            data-index="0"
-            data-name="question1"
-            @slideclick="gotoSlide(1)"
-            class="widget-question"
-            v-for="question in questions"
-            v-bind:key="question.id"
-          >
-            <p>
-              {{ question.title }}
-            </p>
-          </slide>
-        </carousel>
-        <div class="scale">
-          <ul id="scale">
-            <li @click="gotoSlide()" class="score" v-for="score in scores" v-bind:key="score.id">{{ score.rate }}</li>
-          </ul>
-          <span>Do not agree</span>
-          <span>Totally agree</span>
+        <div class="widget-body">
+          <carousel
+            :per-page="1"
+            :mouse-drag="false"
+            :paginationPosition="'top'"
+            :paginationSize="6"
+            :paginationActiveColor="'#D2D2D2'"
+            :paginationColor="'#f1f1f1'"
+            :paginationPadding="4">
+            <slide
+              data-index="1"
+              data-name="question1"
+              class="widget-question"
+              v-for="question in questions"
+              v-bind:key="question.id"
+            >
+              <p>
+                {{ question.title }}
+              </p>
+            </slide>
+          </carousel>
+          <div class="scale">
+            <ul id="scale">
+              <li @click="gotoSlide" class="score" :style="styleObject" value="Go" v-for="score in scores" v-bind:key="score.id">{{ score.rate }}</li>
+            </ul>
+            <span>Do not agree</span>
+            <span>Totally agree</span>
+          </div>
         </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -67,6 +67,7 @@ export default {
       ],
       logo: '',
       bgColor: '',
+      isVisible: true,
       scores: [
         { rate: '1' },
         { rate: '2' },
@@ -74,6 +75,13 @@ export default {
         { rate: '4' },
         { rate: '5' },
       ],
+    }
+  },
+  computed: {
+    styleObject() {
+      return {
+        '--bg-color': this.bgColor,
+      }
     }
   },
   mounted() {
@@ -117,7 +125,7 @@ export default {
     padding: 2px 16px;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
-    background: #05377E;
+    background: var(--bg-color);
     color: white;
   }
 
@@ -126,7 +134,11 @@ export default {
   }
 
   .widget-header .logo {
-    height: 18px;
+    height: 28px;
+  }
+
+  .widget-header .logo img {
+    width: 100%;
   }
 
   /* Modal Body */
@@ -178,6 +190,21 @@ export default {
     cursor: pointer;
   }
 
+  .score:hover {
+    background: var(--bg-color);
+    opacity: 0.7;
+  }
+
+  .score:active {
+    background: var(--bg-color);
+    opacity: 1;
+  }
+
+  .close {
+    padding: 10px;
+    cursor: pointer;
+  }
+
   .score:last-of-type {
     margin-right: 0;
   }
@@ -192,6 +219,16 @@ export default {
     animation-name: animatebottom;
     animation-duration: 0.4s;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  .modal-fade-enter,
+  .modal-fade-leave-active {
+    opacity: 0;
+  }
+
+  .modal-fade-enter-active,
+  .modal-fade-leave-active {
+    transition: opacity .5s ease
   }
 
   /* Add Animation */
